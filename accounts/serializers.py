@@ -26,7 +26,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class LoginSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
-        data = super().validated[attrs]
+        data = super().validate(attrs)
         refresh = self.get_token(self.user)
         data["user"] = UserSerializer(self.user).data
         data["refresh"] = str(refresh)
@@ -58,8 +58,8 @@ class CustomerRegistrationSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         try:
             user = User.objects.get(email=validated_data["email"])
-            raise serializers.ValidationError(
-                "User with this email already exists!")
+            # raise serializers.ValidationError(
+            #     "User with this email already exists!")
         except ObjectDoesNotExist:
             if (validated_data["password"] and
                 validated_data["password_confirmation"] and
@@ -72,7 +72,7 @@ class CustomerRegistrationSerializer(serializers.ModelSerializer):
                     email=validated_data["email"],
                     phone=validated_data["phone"],
                     is_active=False,
-                    role="Customer"
+                    role="customer"
                 )
                 user.set_password(validated_data["password"])
                 user.save()

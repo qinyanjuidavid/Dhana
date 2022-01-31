@@ -71,7 +71,7 @@ class User(AbstractBaseUser, TrackingModel):
                                  blank=True, null=True)
     email = models.EmailField(_("email"), max_length=156,
                               unique=True)
-    phone_number = PhoneNumberField(_("phone number"), unique=True)
+    phone = PhoneNumberField(_("phone number"), unique=True)
     is_admin = models.BooleanField(_("admin"), default=False)
     is_staff = models.BooleanField(_("staff"), default=False)
     is_active = models.BooleanField(_("active"), default=True)
