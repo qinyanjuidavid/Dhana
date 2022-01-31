@@ -1,3 +1,4 @@
 from django.shortcuts import render
-
-# Create your views here.
+from accounts.models import (User, Administrator, Customer)
+from accounts.serializers import (
+    UserSerializer, CustomerRegistrationSerializer)

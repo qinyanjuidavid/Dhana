@@ -66,6 +66,9 @@ class User(AbstractBaseUser, TrackingModel):
     )
     username = models.CharField(_("username"),
                                 max_length=156, unique=True)
+    full_name = models.CharField(_("full name"),
+                                 max_length=189,
+                                 blank=True, null=True)
     email = models.EmailField(_("email"), max_length=156,
                               unique=True)
     phone_number = PhoneNumberField(_("phone number"), unique=True)
