@@ -42,10 +42,6 @@ class CustomerRegistrationSerializer(serializers.ModelSerializer):
         max_length=28, min_length=4,
         write_only=True, required=True
     )
-    password_confirmation = serializers.CharField(
-        max_length=28, min_length=4,
-        write_only=True, required=True
-    )
     email = serializers.EmailField(
         max_length=128, required=True
     )
@@ -53,27 +49,21 @@ class CustomerRegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("username",
-                  "email", "phone", "password", "password_confirmation")
+                  "email", "phone", "password")
 
-    def create(self, validated_data):
-        try:
-            user = User.objects.get(email=validated_data["email"])
-            # raise serializers.ValidationError(
-            #     "User with this email already exists!")
-        except ObjectDoesNotExist:
-            if (validated_data["password"] and
-                validated_data["password_confirmation"] and
-                    validated_data["password"] !=
-                    validated_data["password_confirmation"]):
-                raise serializers.ValidationError("Passwords do not match!")
-            else:
-                user = User.objects.create(
-                    username=validated_data["username"],
-                    email=validated_data["email"],
-                    phone=validated_data["phone"],
-                    is_active=False,
-                    role="customer"
-                )
-                user.set_password(validated_data["password"])
-                user.save()
-        return user
+        def create(self, validated_data):
+            try:
+                user = User.objects.get(email=validated_data['email'])
+            except ObjectDoesNotExist:
+                if (validated_data["role"] == "Customer" or
+                        validated_data["role"] == "Dealer"):
+                    user = User.objects.create(
+                        username=validated_data["username"],
+                        email=validated_data["email"],
+                        phone=validated_data["phone"],
+                        is_active=False,
+                        role="customer"
+                    )
+                    user.set_password(validated_data["password"])
+                    user.save()
+            return user
