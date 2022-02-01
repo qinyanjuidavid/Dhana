@@ -71,7 +71,8 @@ class User(AbstractBaseUser, TrackingModel):
                                  blank=True, null=True)
     email = models.EmailField(_("email"), max_length=156,
                               unique=True)
-    phone = PhoneNumberField(_("phone number"), unique=True)
+    phone = PhoneNumberField(
+        _("phone number"), unique=True, blank=True, null=True)
     is_admin = models.BooleanField(_("admin"), default=False)
     is_staff = models.BooleanField(_("staff"), default=False)
     is_active = models.BooleanField(_("active"), default=True)
@@ -79,6 +80,9 @@ class User(AbstractBaseUser, TrackingModel):
                             choices=role_choices)
     timestamp = models.DateTimeField(_("timestamp"),
                                      auto_now_add=True)
+
+    def get_queryset(self):
+        users = User.objects.all()
 
     def __str__(self):
         return self.username
