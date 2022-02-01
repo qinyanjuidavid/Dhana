@@ -1,0 +1,16 @@
+{%extends 'accounts/base.html'%} {%block title%} Login {%endblock%}
+<!---->
+{%block content%}
+<h3>Welcome Back,</h3>
+<small>Sign In To Continue</small>
+<hr />
+<form method="POST" action="" enctype="multipart/form-data">
+  {%csrf_token%} {{form.error}} {{form}}
+  <button class="btn btn-outline-primary" type="submit">Login</button>
+</form>
+<a href="{%url 'accounts:RequestPasswordReset'%}"
+  ><small class="text-muted">Forgot Password?</small></a
+>
+{%endblock%}
+<!---->
+{%block javascript%} {%endblock%}

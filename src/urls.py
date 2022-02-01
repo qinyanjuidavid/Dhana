@@ -16,6 +16,7 @@ urlpatterns = [
                                            description=API_DESCRIPTION
                                            )),
     path("", include("accounts.urls")),
+    path("shop/", include("shop.urls"))
 
 ]
 
