@@ -1,6 +1,6 @@
 from django.urls import path
-from accounts.views import (LoginViewSet,
-                            CustomerRegistrationViewSet)
+from accounts.views.api_views import (LoginViewSet,
+                                      CustomerRegistrationViewSet)
 
 from rest_framework.routers import SimpleRouter
 app_name = "api"

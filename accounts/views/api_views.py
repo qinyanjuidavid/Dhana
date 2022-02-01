@@ -12,6 +12,10 @@ from rest_framework_simplejwt.views import (TokenObtainPairView,
                                             TokenRefreshView)
 
 from rest_framework_simplejwt.tokens import RefreshToken
+from accounts.sendMails import (
+    send_activation_mail, send_password_reset_email)
+from accounts.permissions import (IsAdministrator,
+                                  IsCustomer)
 
 
 class LoginViewSet(ModelViewSet):
@@ -41,6 +45,8 @@ class CustomerRegistrationViewSet(ModelViewSet, TokenObtainPairView):
         serializer.is_valid(raise_exception=True)
         user = serializer.save(is_active=False,
                                role="customer")
+        user_data = serializer.data
+        send_activation_mail(user_data, request)
 
         refresh = RefreshToken.for_user(user)
         res = {
