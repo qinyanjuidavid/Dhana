@@ -79,3 +79,31 @@ class UserSignUpForm(ModelForm):
             user.save()
 
         return user
+
+
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ("username", "full_name", "phone",)
+
+
+class CustomerProfileUpdateForm(forms.ModelForm):
+    bio = forms.CharField(label="Bio", widget=forms.Textarea(
+        attrs={"class": "form-control", "placeholder": "",
+               'rows': "3", "cols": '50'}))
+
+    class Meta:
+        model = Customer
+        fields = ("city", "address", "postal_code",
+                  "town", "estate", "profile_picture",
+                  "bio",)
+
+
+class AdministratorProfileUpdate(forms.ModelForm):
+    bio = forms.CharField(label="Bio", widget=forms.Textarea(
+        attrs={"class": "form-control", "placeholder": "",
+               'rows': "3", "cols": '50'}))
+
+    class Meta:
+        model = Administrator
+        fields = ("profile_picture", "bio")

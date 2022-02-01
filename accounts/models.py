@@ -114,7 +114,9 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     profile_picture = models.ImageField(_("profile picture"),
                                         upload_to="profile_pictures",
-                                        blank=True, null=True)
+                                        default="default.png")
+    bio = models.TextField(_("bio"),
+                           blank=True, null=True)
 
     class Meta:
         abstract = True
