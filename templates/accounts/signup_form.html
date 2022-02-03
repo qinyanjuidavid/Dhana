@@ -1,8 +1,0 @@
-{%load crispy_forms_tags%}
-<h1>{{user_type}} Sign up</h1>
-<hr />
-<form method="POST" action="" enctype="multipart/form-data">
-  {%csrf_token%} {{form.error}} {{form|crispy}}
-  <button class="btn btn-outline-primary" type="Submit">Sign Up</button>
-  <form></form>
-</form>

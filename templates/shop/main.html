@@ -49,9 +49,19 @@
   <body>
     {%include 'includes/header.html'%}
     <!--Content-->
+     {% if messages %}
+         <div class="container">
+         <ul class="messages p-3 list-unstyled">
+             {% for message in messages %}
+             <li{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</li>
+             {% endfor %}
+         </ul>
+         </div>
+         {% endif %}
     {%block content%} {%endblock%}
     <!--Footer-->
     {%include 'includes/footer.html'%}
+    {%block javascript%}{%endblock%}
     <script
       type="text/javascript"
       src="{%static 'js/jquery-3.4.1.min.js'%}"

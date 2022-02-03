@@ -1,0 +1,18 @@
+{%load crispy_forms_tags%}
+<br />
+<div class="col-sm-6" style="margin: auto">
+  <div class="card card-body mt-1">
+    <h3>{{user_type}} Sign up,</h3>
+    <small>Welcome to Dhana E-shoe Shop</small>
+    <hr />
+    <form method="POST" action="" enctype="multipart/form-data">
+      {%csrf_token%} {{form.error}} {{form|crispy}}
+
+      <button class="btn btn-outline-primary" type="submit">Sign Up</button>
+    </form>
+    <a href="{%url 'accounts:login'%}"
+      ><small class="text-muted">Already have an account?</small></a
+    >
+  </div>
+</div>
+<br />
