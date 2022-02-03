@@ -67,3 +67,48 @@ class CustomerRegistrationSerializer(serializers.ModelSerializer):
                     user.set_password(validated_data["password"])
                     user.save()
             return user
+
+
+class ResetPasswordEmailRequestSerializer(serializers.Serializer):
+    email = serializers.EmailField(
+        max_length=155, min_length=2
+    )
+
+    class Meta:
+        fields = ['email', ]
+
+    def validate(self, attrs):
+        return attrs
+
+
+class SetNewPasswordSerializer(serializers.Serializer):
+    password = serializers.CharField(
+        min_length=6, max_length=68, write_only=True
+    )
+    password_confirmation = serializers.CharField(
+        min_length=6, max_length=68, write_only=True
+    )
+    token = serializers.CharField(min_length=1, write_only=True)
+    uidb64 = serializers.CharField(
+        min_length=1, write_only=True
+    )
+
+    class Meta:
+        fields = ("password", "password_confirmation", "token", "uidb64")
+
+
+class CustomerProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+
+    class Meta:
+        model = Customer
+        fields = ("id", "user", "city",
+                  "address", "postal_code", "town", "estate")
+
+
+class AdministratorProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+
+    class Meta:
+        model = Administrator
+        fields = ("id", "user")

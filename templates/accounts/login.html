@@ -1,0 +1,26 @@
+{%extends 'accounts/base.html'%} {%load crispy_forms_tags%}
+<!--Title-->
+{%block title%} Login {%endblock%}
+<!---->
+{%block content%}
+<br />
+<div class="col-sm-6" style="margin: auto">
+  <div class="card card-body mt-1">
+    <h3>Welcome Back,</h3>
+    <small>Sign in to continue</small>
+    <hr />
+    <form method="POST" action="" enctype="multipart/form-data">
+      {%csrf_token%} {{form.error}} {{form|crispy}}
+      <a href="{%url 'accounts:RequestPasswordReset'%}"
+        ><small class="text-muted">Forgot Password?</small></a
+      ><br />
+      <button class="btn btn-outline-primary" type="submit">Login</button>
+    </form>
+    <a href="{%url 'accounts:customerSignup'%}"
+      ><small class="text-muted">Already have an account?</small></a
+    >
+  </div>
+</div>
+{%endblock%}
+<!---->
+{%block javascript%} {%endblock%}
