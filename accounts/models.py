@@ -13,7 +13,6 @@ class TrackingModel(models.Model):
                                         auto_now=True)
 
     class Meta:
-        verbose_name_plural = "Tracking Model"
         abstract = True
 
 

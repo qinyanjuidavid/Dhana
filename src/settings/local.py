@@ -35,14 +35,15 @@ INSTALLED_APPS = [
     "rest_framework",
     'rest_framework_simplejwt.token_blacklist',
     'drf_yasg',
-    'corsheaders'
+    'corsheaders',
+    'crispy_forms'
 ]
 
 PHONENUMBER_DB_FORMAT = "NATIONAL"
 PHONENUMBER_DEFAULT_REGION = "KE"
 
 AUTH_USER_MODEL = "accounts.User"
-
+CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -89,17 +90,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'src.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
-
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
@@ -143,8 +133,8 @@ STATICFILES_DIRS = [
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-LOGIN_REDIRECT_URL = "/shop/products/"
-LOGOUT_REDIRECT_URL = "/login/"
+LOGIN_REDIRECT_URL = "/products/"
+LOGOUT_REDIRECT_URL = "/accounts/login/"
 LOGIN_URL = "/login/"
 
 # Default primary key field type

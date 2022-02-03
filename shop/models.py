@@ -1,7 +1,11 @@
 from django.db import models
 from accounts.models import User, Administrator, Customer, TrackingModel
 from django.utils.translation import gettext as _
-# Create your models here.
+from django.utils import timezone
+from django.core.validators import (
+    MaxLengthValidator,
+    MaxValueValidator,
+    MinLengthValidator)
 
 
 class Category(TrackingModel):
@@ -13,6 +17,9 @@ class Category(TrackingModel):
 
     def __str__(self):
         return self.category
+
+    class Meta:
+        verbose_name_plural = "Categories"
 
 
 class Brand(TrackingModel):
@@ -63,7 +70,10 @@ class Product(TrackingModel):
 class Rating(TrackingModel):
     product = models.ForeignKey(Product, related_name="products",
                                 on_delete=models.CASCADE)
-    # rate=models
+    rating = models.IntegerField(_("rating"),
+                                 default=0, validators=[
+        MaxValueValidator(5),
+        MinLengthValidator(0)])
     review = models.TextField(blank=True, null=True)
     customer = models.ForeignKey(Customer,
                                  on_delete=models.CASCADE)

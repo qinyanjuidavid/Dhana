@@ -15,8 +15,8 @@ urlpatterns = [
     path('api/v1/docs/', include_docs_urls(title=API_TITLE,
                                            description=API_DESCRIPTION
                                            )),
-    path("", include("accounts.urls")),
-    path("shop/", include("shop.urls"))
+    path("accounts/", include("accounts.urls")),
+    path("", include("shop.urls"))
 
 ]
 
