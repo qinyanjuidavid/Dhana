@@ -5,7 +5,7 @@
 >
   <div class="container">
     <a class="navbar-brand waves-effect" href="" target="_blank">
-      <strong class="" style="color: #ff9e33">DHANA</strong>
+      <strong class="{%url 'shop:home'%}" style="color: #ff9e33">DHANA</strong>
     </a>
     <button
       class="navbar-toggler ml-2"
@@ -46,7 +46,10 @@
       </ul>
       <ul class="navbar-nav nav-flex-icons">
         <li class="nav-item">
-          <a class="nav-link waves-effect">
+          <a
+            class="nav-link waves-effect text-white"
+            href="{%url 'shop:cart'%}"
+          >
             <span
               class="badge black z-depth-1 mr-1"
               style="border-radius: 35px"

@@ -6,12 +6,13 @@
 <!--Main layout-->
 <main>
   <div class="container">
-    <!--Navbar-->
+    <!--Navbar #ff9e33 #3f13f8-->
     <nav
-      class="navbar navbar-expand-lg navbar-dark mdb-color lighten-3 mt-3 mb-5"
+      class="navbar navbar-expand-lg lighten-3 mt-3 mb-5"
+      style="background-color: #3f13f8"
     >
       <!-- Navbar brand -->
-      <span class="navbar-brand">Categories:</span>
+      <span class="navbar-brand" style="color: #ff9e33">Categories:</span>
 
       <!-- Collapse button -->
       <button
@@ -23,7 +24,7 @@
         aria-expanded="false"
         aria-label="Toggle navigation"
       >
-        <span class="navbar-toggler-icon"></span>
+        <i class="fa fa-bars fa-lg text-white"></i>
       </button>
 
       <!-- Collapsible content -->
@@ -31,27 +32,25 @@
         <!-- Links -->
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="#"
+            <a class="nav-link text-white" href="#"
               >All
               <span class="sr-only">(current)</span>
             </a>
           </li>
+          {%for category in categories%}
           <li class="nav-item">
-            <a class="nav-link" href="#">Shirts</a>
+            <a class="nav-link text-white" href="#"
+              >{{category.category|title}}</a
+            >
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Sport wears</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Outwears</a>
-          </li>
+          {%endfor%}
         </ul>
         <!-- Links -->
 
         <form class="form-inline">
           <div class="md-form my-0">
             <input
-              class="form-control mr-sm-2"
+              class="form-control mr-sm-2 text-white"
               type="text"
               placeholder="Search"
               aria-label="Search"
@@ -62,19 +61,23 @@
       <!-- Collapsible content -->
     </nav>
     <!--/.Navbar-->
-
     <!--Section: Products v.3-->
     <section class="text-center mb-4">
       <!--Grid row-->
       <div class="row wow fadeIn">
         <!--Grid column-->
+        {%for product in products%}
         <div class="col-lg-3 col-md-6 mb-4">
           <!--Card-->
           <div class="card">
             <!--Card image-->
             <div class="view overlay">
-              <img src="" class="card-img-top" alt="" />
-              <a>
+              <img
+                src="{{product.image.url}}"
+                class="card-img-top img-fluid"
+                alt=""
+              />
+              <a href="{%url 'shop:productDetails' product.id%}">
                 <div class="mask rgba-white-slight"></div>
               </a>
             </div>
@@ -83,289 +86,34 @@
             <!--Card content-->
             <div class="card-body text-center">
               <!--Category & Title-->
-              <a href="" class="grey-text">
-                <h5>Shirt</h5>
+              <a href="{%url 'shop:productDetails' product.id%}" class="grey-text">
+                <h5>{{product.product|title}}</h5>
               </a>
               <h5>
                 <strong>
-                  <a href="" class="dark-grey-text"
-                    >Denim shirt
-                    <span class="badge badge-pill danger-color">NEW</span>
-                  </a>
+                  <a href="{%url 'shop:productDetails' product.id%}" class="dark-grey-text"
+                    >{{product.category.category|title}} {%if product.brand%}
+                    <span class="badge badge-sm badge-pill danger-color">
+                      <small> {{product.brand.brand|title}} </small>
+                    </span>
+                    {%endif%}
                 </strong>
               </h5>
 
-              <h4 class="font-weight-bold blue-text">
-                <strong>120$</strong>
-              </h4>
+              <h5 class="font-weight-bold blue-text">
+                <strong>{{product.discount_price}} Kshs</strong>
+                <br />
+                <span class="badge badge-pill primary-color"
+                  >{{product.price}} Kshs</span
+                >
+              </h5>
             </div>
             <!--Card content-->
           </div>
           <!--Card-->
         </div>
+        {%endfor%}
         <!--Grid column-->
-
-        <!--Grid column-->
-        <div class="col-lg-3 col-md-6 mb-4">
-          <!--Card-->
-          <div class="card">
-            <!--Card image-->
-            <div class="view overlay">
-              <img src="" class="card-img-top" alt="" />
-              <a>
-                <div class="mask rgba-white-slight"></div>
-              </a>
-            </div>
-            <!--Card image-->
-
-            <!--Card content-->
-            <div class="card-body text-center">
-              <!--Category & Title-->
-              <a href="" class="grey-text">
-                <h5>Sport wear</h5>
-              </a>
-              <h5>
-                <strong>
-                  <a href="" class="dark-grey-text">Sweatshirt</a>
-                </strong>
-              </h5>
-
-              <h4 class="font-weight-bold blue-text">
-                <strong>139$</strong>
-              </h4>
-            </div>
-            <!--Card content-->
-          </div>
-          <!--Card-->
-        </div>
-        <!--Grid column-->
-
-        <!--Grid column-->
-        <div class="col-lg-3 col-md-6 mb-4">
-          <!--Card-->
-          <div class="card">
-            <!--Card image-->
-            <div class="view overlay">
-              <img src="" class="card-img-top" alt="" />
-              <a>
-                <div class="mask rgba-white-slight"></div>
-              </a>
-            </div>
-            <!--Card image-->
-
-            <!--Card content-->
-            <div class="card-body text-center">
-              <!--Category & Title-->
-              <a href="" class="grey-text">
-                <h5>Sport wear</h5>
-              </a>
-              <h5>
-                <strong>
-                  <a href="" class="dark-grey-text"
-                    >Grey blouse
-                    <span class="badge badge-pill primary-color"
-                      >bestseller</span
-                    >
-                  </a>
-                </strong>
-              </h5>
-
-              <h4 class="font-weight-bold blue-text">
-                <strong>99$</strong>
-              </h4>
-            </div>
-            <!--Card content-->
-          </div>
-          <!--Card-->
-        </div>
-        <!--Grid column-->
-
-        <!--Fourth column-->
-        <div class="col-lg-3 col-md-6 mb-4">
-          <!--Card-->
-          <div class="card">
-            <!--Card image-->
-            <div class="view overlay">
-              <img src="" class="card-img-top" alt="" />
-              <a>
-                <div class="mask rgba-white-slight"></div>
-              </a>
-            </div>
-            <!--Card image-->
-
-            <!--Card content-->
-            <div class="card-body text-center">
-              <!--Category & Title-->
-              <a href="" class="grey-text">
-                <h5>Outwear</h5>
-              </a>
-              <h5>
-                <strong>
-                  <a href="" class="dark-grey-text">Black jacket</a>
-                </strong>
-              </h5>
-
-              <h4 class="font-weight-bold blue-text">
-                <strong>219$</strong>
-              </h4>
-            </div>
-            <!--Card content-->
-          </div>
-          <!--Card-->
-        </div>
-        <!--Fourth column-->
-      </div>
-      <!--Grid row-->
-
-      <!--Grid row-->
-      <div class="row wow fadeIn">
-        <!--Grid column-->
-        <div class="col-lg-3 col-md-6 mb-4">
-          <!--Card-->
-          <div class="card">
-            <!--Card image-->
-            <div class="view overlay">
-              <img src="" class="card-img-top" alt="" />
-              <a>
-                <div class="mask rgba-white-slight"></div>
-              </a>
-            </div>
-            <!--Card image-->
-
-            <!--Card content-->
-            <div class="card-body text-center">
-              <!--Category & Title-->
-              <a href="" class="grey-text">
-                <h5>Shirt</h5>
-              </a>
-              <h5>
-                <strong>
-                  <a href="" class="dark-grey-text"
-                    >Denim shirt
-                    <span class="badge badge-pill danger-color">NEW</span>
-                  </a>
-                </strong>
-              </h5>
-
-              <h4 class="font-weight-bold blue-text">
-                <strong>120$</strong>
-              </h4>
-            </div>
-            <!--Card content-->
-          </div>
-          <!--Card-->
-        </div>
-        <!--Grid column-->
-
-        <!--Grid column-->
-        <div class="col-lg-3 col-md-6 mb-4">
-          <!--Card-->
-          <div class="card">
-            <!--Card image-->
-            <div class="view overlay">
-              <img src="" class="card-img-top" alt="" />
-              <a>
-                <div class="mask rgba-white-slight"></div>
-              </a>
-            </div>
-            <!--Card image-->
-
-            <!--Card content-->
-            <div class="card-body text-center">
-              <!--Category & Title-->
-              <a href="" class="grey-text">
-                <h5>Sport wear</h5>
-              </a>
-              <h5>
-                <strong>
-                  <a href="" class="dark-grey-text">Sweatshirt</a>
-                </strong>
-              </h5>
-
-              <h4 class="font-weight-bold blue-text">
-                <strong>139$</strong>
-              </h4>
-            </div>
-            <!--Card content-->
-          </div>
-          <!--Card-->
-        </div>
-        <!--Grid column-->
-
-        <!--Grid column-->
-        <div class="col-lg-3 col-md-6 mb-4">
-          <!--Card-->
-          <div class="card">
-            <!--Card image-->
-            <div class="view overlay">
-              <img src="" class="card-img-top" alt="" />
-              <a>
-                <div class="mask rgba-white-slight"></div>
-              </a>
-            </div>
-            <!--Card image-->
-
-            <!--Card content-->
-            <div class="card-body text-center">
-              <!--Category & Title-->
-              <a href="" class="grey-text">
-                <h5>Sport wear</h5>
-              </a>
-              <h5>
-                <strong>
-                  <a href="" class="dark-grey-text"
-                    >Grey blouse
-                    <span class="badge badge-pill primary-color"
-                      >bestseller</span
-                    >
-                  </a>
-                </strong>
-              </h5>
-
-              <h4 class="font-weight-bold blue-text">
-                <strong>99$</strong>
-              </h4>
-            </div>
-            <!--Card content-->
-          </div>
-          <!--Card-->
-        </div>
-        <!--Grid column-->
-
-        <!--Fourth column-->
-        <div class="col-lg-3 col-md-6 mb-4">
-          <!--Card-->
-          <div class="card">
-            <!--Card image-->
-            <div class="view overlay">
-              <img src="" class="card-img-top" alt="" />
-              <a>
-                <div class="mask rgba-white-slight"></div>
-              </a>
-            </div>
-            <!--Card image-->
-
-            <!--Card content-->
-            <div class="card-body text-center">
-              <!--Category & Title-->
-              <a href="" class="grey-text">
-                <h5>Outwear</h5>
-              </a>
-              <h5>
-                <strong>
-                  <a href="" class="dark-grey-text">Black jacket</a>
-                </strong>
-              </h5>
-
-              <h4 class="font-weight-bold blue-text">
-                <strong>219$</strong>
-              </h4>
-            </div>
-            <!--Card content-->
-          </div>
-          <!--Card-->
-        </div>
-        <!--Fourth column-->
       </div>
       <!--Grid row-->
     </section>
