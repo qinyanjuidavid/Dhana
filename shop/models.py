@@ -104,4 +104,4 @@ class Order(TrackingModel):
                                  on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.customer.customer
+        return self.customer.user.username

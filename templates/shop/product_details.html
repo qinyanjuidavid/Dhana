@@ -3,8 +3,9 @@
 {%block title%}{%endblock%}
 <!--Content-->
 {%block content%}
-<main class="mt-5 pt-4">
+<main class="pt-4">
   <div class="container dark-grey-text mt-5">
+    {%include 'includes/messages.html'%}
     <!--Grid row-->
     <div class="row wow fadeIn">
       <!--Grid column-->
@@ -48,21 +49,28 @@
           <p class="lead font-weight-bold">Description</p>
 
           <p>{{product.description|title}}</p>
-
-          <form class="d-flex justify-content-left">
-            <!-- Default input -->
-            <input
-              type="number"
-              value="1"
-              aria-label="Search"
-              class="form-control"
-              style="width: 100px"
-            />
-            <button class="btn btn-primary btn-md my-0 p" type="submit">
-              Add to cart
-              <i class="fas fa-shopping-cart ml-1"></i>
-            </button>
-          </form>
+          <div class="row">
+            <div class="col-6">
+              <form class="d-flex justify-content-left">
+                <!-- Default input -->
+                <input
+                  type="number"
+                  value="1"
+                  aria-label="Search"
+                  class="form-control"
+                  style="width: 100px"
+                />
+              </form>
+            </div>
+            <div class="col-6">
+              <a href="{%url 'shop:addToCart' product.id%}">
+                <button class="btn btn-primary btn-md my-0 p">
+                  Add to cart
+                  <i class="fas fa-shopping-cart ml-1"></i>
+                </button>
+              </a>
+            </div>
+          </div>
         </div>
         <!--Content-->
       </div>

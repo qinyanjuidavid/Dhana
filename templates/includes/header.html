@@ -60,6 +60,25 @@
             <span class="clearfix d-none d-sm-inline-block"> Cart </span>
           </a>
         </li>
+        {%if request.user.is_authenticated%}
+        <li class="nav-item">
+          <a
+            href="{%url 'shop:customerProfile'%}"
+            class="nav-link waves-effect text-white"
+            ><i class="fa fa-user"></i>
+            Profile
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            href="{%url 'accounts:logout'%}"
+            class="nav-link waves-effect text-white"
+          >
+            Logout
+          </a>
+        </li>
+
+        {%else%}
 
         <li class="nav-item">
           <a
@@ -77,6 +96,7 @@
             Signup
           </a>
         </li>
+        {%endif%}
       </ul>
     </div>
   </div>
