@@ -118,7 +118,7 @@ class Profile(models.Model):
                                 on_delete=models.CASCADE, unique=True)
     bio = models.TextField(_("bio"), blank=True, null=True)
     profile_picture = models.ImageField(
-        _("profile picture"), upload_to="picture/%y/%m/%d",
+        _("profile picture"), upload_to="profile",
         default="default.png")
 
     class Meta:
