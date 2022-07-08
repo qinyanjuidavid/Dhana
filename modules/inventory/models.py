@@ -13,7 +13,6 @@ from django.core.validators import (
 class Category(TrackingModel):
     category = models.CharField(_("category"), max_length=67,
                                 unique=True)
-    added_by = models.ForeignKey(Administrator, on_delete=models.DO_NOTHING)
 
     def __str__(self):
         return self.category
