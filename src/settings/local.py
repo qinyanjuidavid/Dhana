@@ -27,9 +27,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Local apps
-    'accounts.apps.AccountsConfig',
-    'api.apps.ApiConfig',
-    'shop.apps.ShopConfig',
+    'modules.accounts.apps.AccountsConfig',
+    'modules.api.apps.ApiConfig',
+    'modules.inventory.apps.InventoryConfig',
+    'modules.orders.apps.OrdersConfig',
     # 3rd party apps
     'phonenumber_field',
     "rest_framework",
@@ -133,9 +134,7 @@ STATICFILES_DIRS = [
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-LOGIN_REDIRECT_URL = "/products/"
-LOGOUT_REDIRECT_URL = "/accounts/login/"
-LOGIN_URL = "/login/"
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
