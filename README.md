@@ -1,2 +1,3 @@
 # Dhana
-Dhana is an E-commerce Shoe Shop
+
+Inventory management API
