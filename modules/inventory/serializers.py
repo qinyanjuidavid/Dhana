@@ -1,4 +1,3 @@
-from unicodedata import category
 from modules.inventory.models import Category, Product, Rating
 from rest_framework.serializers import ModelSerializer
 
