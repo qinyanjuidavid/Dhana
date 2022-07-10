@@ -21,7 +21,7 @@ class ProductTestCase(APITestCase):
             stock=5,
             description="Sprite 500ml",
             category=self.category,
-            image="products/default.png",
+            image="products/prod1.png",
         )
 
     def test_list_products(self):
@@ -38,11 +38,147 @@ class ProductTestCase(APITestCase):
                 'stock': 5,
                 'description': 'Sprite 500ml',
                 # 'category':
-                'image': 'products/default.png'
+                'image': 'products/prod1.png'
             }
         ]
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json(), expected)
+
+    def test_create_product(self):
+        self.assertEqual(Product.objects.count(), 0)
+        body = {
+            'product_name': 'Sprite',
+            'unit_price': 70.0,
+            'stock': 5,
+            'description': 'Sprite 500ml',
+            'category': 1,
+            'image': 'products/prod1.png',
+        }
+        response = self.client.post(api_reverse(
+            "api:products"), body, 'application/json')
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(Product.objects.count(), 1)
+        product = Product.objects.get()
+
+        expected = {
+            'id': product.id,
+            'product_name': 'Sprite',
+            'unit_price': 70.0,
+            'stock': 5,
+            'description': 'Sprite 500ml',
+            'category': 1,
+            'image': 'products/prod1.png'
+        }
+        self.assertEqual(response.json(), expected)
+
+    def test_get_product(self):
+        sprite = self.create_soda()
+        expected = {
+            'id': sprite.id,
+            'product_name': 'Sprite',
+            'unit_price': 70.0,
+            'stock': 5,
+            'description': 'Sprite 500ml',
+            'category': 1,
+            'image': 'products/prod1.png',
+        }
+        response = self.client.get(api_reverse(
+            'api:products', kwargs={"pk": sprite.pk}))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json(), expected)
+
+    def test_get_product_after_edition(self):
+        sprite = self.create_soda()
+        expected = {
+            'id': sprite.id,
+            'product_name': 'Sprite',
+            'unit_price': 70.0,
+            'stock': 5,
+            'description': 'Sprite 500ml',
+            'category': 1,
+            'image': 'products/prod1.png',
+        }
+        response = self.client.get(api_reverse(
+            'api:products', kwargs={'pk': sprite.pk}))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json(), expected)
+
+        sprite.product_name = "Coca-Cola"
+        sprite.description = 'Coca-Cola 500ml'
+        sprite.save()
+
+        expected = {
+            'id': sprite.id,
+            'product_name': 'Coca-Cola',
+            'unit_price': 70.0,
+            'stock': 5,
+            'description': 'Coca-Cola 500ml',
+            'category': 1,
+            'image': 'products/prod1.png',
+        }
+        response = self.client.get(api_reverse(
+            'api:products', kwargs={'pk': sprite.pk}))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json(), expected)
+
+    def test_update_product(self):
+        sprite = self.create_soda()
+        response = self.client.get(api_reverse(
+            'api:products', kwargs={'pk': sprite.id}))
+        self.assertEqual(response.status_code, 200)
+
+        # Test HTTP PUT
+        body = {
+            'id': sprite.id,
+            'product_name': 'Coca-Cola',
+            'unit_price': 70.0,
+            'stock': 10,
+            'description': 'Coca-Cola 500ml',
+            'category': 1,
+            'image': 'products/prod1.png',
+        }
+
+        expected = {
+            'id': sprite.id,
+            'product_name': 'Coca-Cola',
+            'unit_price': 70.0,
+            'stock': 10,
+            'description': 'Coca-Cola 500ml',
+            'category': 1,
+            'image': 'products/prod1.png',
+        }
+        response = self.client.put(api_reverse(
+            'api:products', kwargs={'pk': sprite.id}),
+            body, 'application/json')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json(), expected)
+
+        # Test HTTP PATCH
+        body = {
+            'unit_price': 100,
+            'stock': 7
+        }
+        expected = {
+            'id': sprite.id,
+            'product_name': 'Coca-Cola',
+            'unit_price': 100.0,
+            'stock': 7,
+            'description': 'Coca-Cola 500ml',
+            'category': 1,
+            'image': 'products/prod1.png',
+        }
+        response = self.client.patch(api_reverse(
+            'api:products', kwargs={'pk': sprite.id})
+            body, 'application/json')
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json(), expected)
+
+    def test_delete_product(self):
+        sprite = self.create_soda()
+        response = self.client.delete(api_reverse(
+            'api:products', kwargs={'pk': sprite.id}))
+        self.assertEqual(response.status_code, 405)
 
 
 class CategoryTestCase(TestCase):
