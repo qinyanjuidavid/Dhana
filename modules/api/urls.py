@@ -6,6 +6,7 @@ from django.urls import path
 app_name = "api"
 routes = SimpleRouter()
 
+# Products routes
 routes.register("products", ProductAPIView, basename="products")
 routes.register("category", CategoryAPIView, basename="category")
 routes.register("rating", RatingAPIView, basename="rating")

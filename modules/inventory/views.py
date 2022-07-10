@@ -10,6 +10,7 @@ from modules.accounts.permissions import IsAdministrator, IsCustomer
 from modules.inventory.serializers import (
     CategorySerializer, ProductSerializer,
     RatingSerializer)
+from django.db.models import Q
 
 
 class ProductAPIView(ModelViewSet):
@@ -101,6 +102,40 @@ class RatingAPIView(ModelViewSet):
         user = self.user
         customerQuery = Customer.objects.get(user=user)
         ratingQs = Rating.objects.filter(
-            customer=customerQuery
+            Q(customer=customerQuery)
         )
         return ratingQs
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def retrieve(self, request, pk=None, *args, **kwargs):
+        queryset = self.get_queryset()
+        queryset = get_object_or_404(queryset, pk=pk)
+        serializer = self.get_serializer(queryset)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        customerQs = Customer.objects.get(user=request.user)
+        serializer.save(customer=customerQs)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def update(self, request, pk=None, *args, **kwargs):
+        queryset = self.get_queryset()
+        queryset = get_object_or_404(queryset, pk=pk)
+        serializer = self.get_serializer(
+            queryset, data=request.data, partial=True
+        )
+        serializer.is_valid(raise_exception=True)
+        customerQs = Customer.objects.get(user=request.user)
+        serializer.save(customer=customerQs)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def destroy(self, request, pk=None, *args, **kwargs):
+        queryset = self.get_queryset()
+        queryset = get_object_or_404(queryset, pk=pk)
+        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)

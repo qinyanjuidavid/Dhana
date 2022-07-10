@@ -1,4 +1,3 @@
-from django.db.models import fields
 from accounts.models import (
     User, Administrator, Customer
 )
