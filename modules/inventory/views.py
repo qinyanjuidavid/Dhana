@@ -15,7 +15,7 @@ from django.db.models import Q
 
 class ProductAPIView(ModelViewSet):
     serializer_class = ProductSerializer
-    permission_classes = [IsAdministrator]
+    permission_classes = [IsAdministrator, IsCustomer]
     http_method_names = ["get", "put", "post", "patch", "delete"]
 
     def get_queryset(self):
@@ -36,17 +36,36 @@ class ProductAPIView(ModelViewSet):
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
+        if request.user.role == "Administrator":
+            print(serializer)
+            serializer.save()
+        else:
+            return Response(
+                {"message": "You are not authorized to perform this action."},
+                status=status.HTTP_401_UNAUTHORIZED)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def update(self, request, pk=None, *args, **kwargs):
         queryset = self.get_queryset()
         queryset = get_object_or_404(queryset, pk=pk)
         serializer = self.get_serializer(
-            queryset, data=request.data, partial=True
+            queryset, data=request.data,
+            partial=True
         )
         serializer.is_valid(raise_exception=True)
-        serializer.save()
+        print(serializer.is_valid)
+        if request.user.role == "Administrator":
+            productObj = Product.objects.get(pk=request.data["id"])
+            print(request.data["category"])
+            categoryQuery = Category.objects.get(
+                id=request.data["category"])
+            productObj.category = categoryQuery
+            productObj.save()
+            serializer.save()
+        else:
+            return Response(
+                {"message": "You are not authorized to perform this action."},
+                status=status.HTTP_401_UNAUTHORIZED)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def destroy(self, request, pk=None, *args, **kwargs):
@@ -57,7 +76,7 @@ class ProductAPIView(ModelViewSet):
 
 class CategoryAPIView(ModelViewSet):
     serializer_class = CategorySerializer
-    permission_classes = [IsAdministrator]
+    permission_classes = [IsAdministrator, IsCustomer]
     http_method_names = ["get", "post", "put", "patch", "delete"]
     queryset = Category.objects.all()
 
@@ -75,7 +94,12 @@ class CategoryAPIView(ModelViewSet):
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
+        if request.user.role == "Administrator":
+            serializer.save()
+        else:
+            return Response(
+                {"message": "You are not authorized to perform this action."},
+                status=status.HTTP_401_UNAUTHORIZED)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def update(self, request, pk=None, *args, **kwargs):
@@ -84,7 +108,12 @@ class CategoryAPIView(ModelViewSet):
         serializer = self.get_serializer(
             queryset, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
+        if request.user.role == "Administrator":
+            serializer.save()
+        else:
+            return Response(
+                {"message": "You are not authorized to perform this action."},
+                status=status.HTTP_401_UNAUTHORIZED)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def destroy(self, request, pk=None, *args, **kwargs):

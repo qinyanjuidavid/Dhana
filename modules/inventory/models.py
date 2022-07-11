@@ -28,8 +28,10 @@ class Product(TrackingModel):
     stock = models.IntegerField(_("stock"), default=0)
     description = models.TextField(_("description"),
                                    blank=True, null=True)
-    category = models.ForeignKey(Category, on_delete=models.DO_NOTHING)
-    image = models.ImageField(_("image"), upload_to="products/")
+    category = models.ForeignKey(Category, on_delete=models.DO_NOTHING,
+                                 blank=True, null=True)
+    image = models.ImageField(
+        _("image"), upload_to="products/", default="prod1.png")
 
     def __str__(self):
         return self.product_name

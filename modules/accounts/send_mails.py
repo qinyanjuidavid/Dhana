@@ -51,7 +51,7 @@ def send_password_reset_email(user_data, request):
     message = f"""
 Hello {user_data.username},
 
-You recently requested for a password reset for your Taskido Account,
+You recently requested for a password reset for your Dhana Account,
 click the link below to reset it:
 {absurl}
 

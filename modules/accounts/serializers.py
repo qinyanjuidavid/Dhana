@@ -97,7 +97,7 @@ class SetNewPasswordSerializer(serializers.Serializer):
 
 
 class CustomerProfileSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
+    user = UserSerializer(read_only=True)
 
     class Meta:
         model = Customer
@@ -110,7 +110,7 @@ class CustomerProfileSerializer(serializers.ModelSerializer):
 
 
 class AdministratorProfileSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
+    user = UserSerializer(read_only=True)
 
     class Meta:
         model = Administrator

@@ -243,7 +243,7 @@ class CustomerProfileAPIView(ModelViewSet):
     """
     serializer_class = CustomerProfileSerializer
     permission_classes = [IsAuthenticated, IsCustomer]
-    http_method_names = ["get", "put"]
+    http_method_names = ["get", "put", "patch"]
 
     def get_queryset(self):
         user = self.request.user
@@ -260,19 +260,21 @@ class CustomerProfileAPIView(ModelViewSet):
 
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data)
+        serializer = self.get_serializer(instance, data=request.data,
+                                         partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
-        # userSerializer = UserSerializer(
-        #     request.user, data=request.data["user"]
-        # )
-        # userSerializer.is_valid(raise_exception=True)
-        # instance.user.username = userSerializer.validated_data["username"]
-        # instance.user.full_name = userSerializer.validated_data["full_name"]
-        # instance.user.phone = userSerializer.validated_data["phone"]
-        # instance.user.save()
-        # userSerializer.save()
+        userSerializer = UserSerializer(
+            request.user, data=request.data["user"],
+            partial=True
+        )
+        userSerializer.is_valid(raise_exception=True)
+        instance.user.username = userSerializer.validated_data["username"]
+        instance.user.full_name = userSerializer.validated_data["full_name"]
+        instance.user.phone = userSerializer.validated_data["phone"]
+        instance.user.save()
+        userSerializer.save()
         return Response(
             serializer.data, status=status.HTTP_202_ACCEPTED
         )
@@ -304,12 +306,11 @@ class AdministratorProfileAPIView(ModelViewSet):
         serializer = self.get_serializer(instance, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-
-        # userSerializer = UserSerializer(
-        #     request.user, data=request.data["user"]
-        # )
-        # userSerializer.is_valid(raise_exception=True)
-        # userSerializer.save()
+        userSerializer = UserSerializer(
+            request.user, data=request.data["user"]
+        )
+        userSerializer.is_valid(raise_exception=True)
+        userSerializer.save()
         return Response(
             serializer.data, status=status.HTTP_202_ACCEPTED
         )
