@@ -15,7 +15,7 @@ schema_view = get_schema_view(
         description="A simple Inventory Management API",
         terms_of_service="https://coderpass.herokuapp.com",
         contact=openapi.Contact(email="davidkinyanjui052@gmail.com"),
-        license=openapi.License(name="DayCodes License"),
+        license=openapi.License(name="Day Codes License"),
     ),
     public=True,
     permission_classes=(permissions.AllowAny,),

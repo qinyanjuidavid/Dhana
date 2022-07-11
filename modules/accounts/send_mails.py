@@ -8,7 +8,7 @@ from django.utils.http import urlsafe_base64_encode
 from rest_framework.reverse import reverse
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from accounts.models import User
+from modules.accounts.models import User
 
 
 def send_activation_mail(user_data, request):
@@ -51,7 +51,7 @@ def send_password_reset_email(user_data, request):
     message = f"""
 Hello {user_data.username},
 
-You recently requested for a password reset for your Taskido Account,
+You recently requested for a password reset for your Dhana Account,
 click the link below to reset it:
 {absurl}
 

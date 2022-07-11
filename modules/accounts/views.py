@@ -12,9 +12,8 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.template.loader import render_to_string
 from django.utils.decorators import method_decorator
-from django.utils.encoding import (DjangoUnicodeDecodeError, force_bytes,
-                                   force_str, force_text, smart_bytes,
-                                   smart_str)
+from django.utils.encoding import (DjangoUnicodeDecodeError, force_str,
+                                   smart_bytes, smart_str)
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.views.decorators.cache import never_cache
 from django.views.generic import CreateView
@@ -244,14 +243,14 @@ class CustomerProfileAPIView(ModelViewSet):
     """
     serializer_class = CustomerProfileSerializer
     permission_classes = [IsAuthenticated, IsCustomer]
-    http_method_names = ["get", "put"]
+    http_method_names = ["get", "put", "patch"]
 
     def get_queryset(self):
         user = self.request.user
-        ownerQuery = Customer.objects.filter(
+        customerQuery = Customer.objects.filter(
             Q(user=user)
         )
-        return ownerQuery
+        return customerQuery
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -261,19 +260,21 @@ class CustomerProfileAPIView(ModelViewSet):
 
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data)
+        serializer = self.get_serializer(instance, data=request.data,
+                                         partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
         userSerializer = UserSerializer(
-            request.user, data=request.data["user"]
+            request.user, data=request.data["user"],
+            partial=True
         )
         userSerializer.is_valid(raise_exception=True)
         instance.user.username = userSerializer.validated_data["username"]
         instance.user.full_name = userSerializer.validated_data["full_name"]
         instance.user.phone = userSerializer.validated_data["phone"]
         instance.user.save()
-        # userSerializer.save()
+        userSerializer.save()
         return Response(
             serializer.data, status=status.HTTP_202_ACCEPTED
         )
@@ -305,7 +306,6 @@ class AdministratorProfileAPIView(ModelViewSet):
         serializer = self.get_serializer(instance, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-
         userSerializer = UserSerializer(
             request.user, data=request.data["user"]
         )
