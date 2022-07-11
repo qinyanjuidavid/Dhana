@@ -1,4 +1,4 @@
-from accounts.models import (
+from modules.accounts.models import (
     User, Administrator, Customer
 )
 from rest_framework import serializers
@@ -6,9 +6,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.settings import api_settings
 from django.contrib.auth.models import update_last_login
 from django.core.exceptions import ObjectDoesNotExist
-
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
-
 from django.utils.encoding import (DjangoUnicodeDecodeError, force_str,
                                    smart_bytes, smart_str)
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
@@ -99,7 +97,7 @@ class SetNewPasswordSerializer(serializers.Serializer):
 
 
 class CustomerProfileSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)
+    user = UserSerializer()
 
     class Meta:
         model = Customer
@@ -112,7 +110,7 @@ class CustomerProfileSerializer(serializers.ModelSerializer):
 
 
 class AdministratorProfileSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)
+    user = UserSerializer()
 
     class Meta:
         model = Administrator
